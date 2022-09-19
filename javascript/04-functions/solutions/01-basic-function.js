@@ -6,10 +6,9 @@
 
 //create a function called oddOrEven that takes in a single parameter
 // and returns the string odd or even depend on the value of the number
-
-//determine if the number is odd or even by
-//using the modulus(%) operator, and return the string 'odd' or 'even'
-
+function oddOrEven(num) {
+  return num % 2 ? "odd" : "even";
+}
 //DO NOT ALTER anything below here!!
 function main() {
   if (typeof oddOrEven === "undefined" || typeof oddOrEven !== "function") {

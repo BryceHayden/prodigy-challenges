@@ -17,9 +17,6 @@ function main() {
       {  
         console.log("Congrats you're making amazing progress with conditionals.")        
       }
-
-
-      //Extra Challenge can you rewrite the above but using a || (or) instead of the &&??
     }
   }
   
