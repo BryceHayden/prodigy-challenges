@@ -1,7 +1,7 @@
 
 function determineBonus(employees) {
   //Write a loop to calculate each employee's bouns
-  for
+
   //For every 3 years the person has been employeed, increase their
   //salary by 1 %, but do not increase anyones over 5 %
 

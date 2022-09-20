@@ -1,75 +1,57 @@
-
 function main() {
   const users = [
     {
-      name: 'John',
+      name: "John",
       age: 24,
-      subscription: 'paid',
-      employee: false
+      subscription: "paid",
+      employee: false,
     },
     {
-      name: 'Samantha',
+      name: "Samantha",
       age: 4,
-      subscription: 'paid',
-      employee: false
+      subscription: "paid",
+      employee: false,
     },
     {
-      name: 'Jim',
+      name: "Jim",
       age: 21,
-      subscription: 'unpaid',
-      employee: true
+      subscription: "unpaid",
+      employee: true,
     },
     {
-      name: 'Brooke',
+      name: "Brooke",
       age: 21,
-      subscription: 'paid',
-      employee: false
+      subscription: "paid",
+      employee: false,
     },
     {
-      name: 'Tom',
+      name: "Tom",
       age: 21,
-      subscription: 'unpaid',
-      employee: false
+      subscription: "unpaid",
+      employee: false,
     },
     {
-      name: 'Katie',
+      name: "Katie",
       age: 21,
-      subscription: 'unpaid',
-      employee: true
-    }
-  ]
+      subscription: "unpaid",
+      employee: true,
+    },
+  ];
 
+  let forPaid = [];
+  let forUnpaid = [];
+  let forEmployees = [];
+  //using a for loop, loop over the users array and filter out the paid, unpaid, and employees. Don't have any duplicates
 
-  let forPaid = []
-  let forUnpaid = []
-  let forEmployees = []
-  //using a for loop
-  for(let i = 0; i < users.length; i++) {
-    if(users[i].subscription === 'paid') {
-      forPaid.push(users[i])
-    } else if (users[i].subscription !== 'paid' && !users[i].employee) {
-      forUnpaid.push(users[i])
-    }
+  //Create new variables (filterPaid, filterUnpaid, filterEmployees) and using .filter do the same things as the for loop above
 
-    if(users[i].employee) {
-      forEmployees.push(users[i])
-    }
-  }
+  console.log("Paid (for): ", forPaid);
+  console.log("Unpaid (for)", forUnpaid);
+  console.log("Employees (for)", forEmployees);
 
-  //using .filter
-  let filterPaid = users.filter(emp => emp.subscription === 'paid')
-  let filterUnpaid = users.filter(emp => (emp.subscription !== 'paid' && !emp.employee))
-  let filterEmployees = users.filter(emp => emp.employee)
-
-
-  console.log('Paid (for): ', forPaid)
-  console.log('Unpaid (for)', forUnpaid)
-  console.log('Employees (for)', forEmployees)
-
-
-  console.log('Paid (filter): ', filterPaid)
-  console.log('Unpaid (filter)', filterUnpaid)
-  console.log('Employees (filter)', filterEmployees)
+  console.log("Paid (filter): ", filterPaid);
+  console.log("Unpaid (filter)", filterUnpaid);
+  console.log("Employees (filter)", filterEmployees);
 }
 
-main()
+main();

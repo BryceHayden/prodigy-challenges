@@ -1,6 +1,7 @@
-function determineBonus(employees) {
-  const bonuses = [];
+//Notice that this problem looks almost the same, except that we are checking different things in the conditional
+//checks near the end...hint pass by reference or complex data passing vs simplistic data
 
+function determineBonus(employees) {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
 
@@ -17,27 +18,22 @@ function determineBonus(employees) {
     let bonus = employees[i].salary * (bonusMultiplier / 100);
     //Round to nearest penny
     bonus = Math.floor(bonus * 100) / 100;
-    bonuses.push(bonus);
+    employees[i].bonus = bonus;
   }
-
-  return bonuses;
 }
 
 function determine401kAmount(employees, percent) {
   //Calculate the amount reduced from each check to put into
   //the employee's 401K it should be the <percent> over the
-  //course of the year. Assumed paid once a month
-  let retirement = [];
+  //course of the year
 
   for (let i = 0; i < employees.length; i++) {
     const yearlyAmount = employees[i].salary * (percent / 100);
     let monthlyAmount = yearlyAmount / 12;
     //round to nearest penny
     monthlyAmount = Math.floor(monthlyAmount * 100) / 100;
-    retirement.push(monthlyAmount);
+    employees[i].retirement = monthlyAmount;
   }
-
-  return retirement;
 }
 
 function main() {
@@ -55,22 +51,14 @@ function main() {
     },
   ];
 
-  const bonus = determineBonus(employees);
-  const retirement = determine401kAmount(employees, 3);
+  determineBonus(employees);
+  determine401kAmount(employees, 3);
 
-  if (
-    typeof bonus === "undefined" ||
-    bonus.length === 0 ||
-    bonus[0] !== 7608.9
-  ) {
+  if (!employees[0].bonus || employees[0].bonus !== 7608.9) {
     console.log("You have an error with your bonus function");
     return;
   }
-  if (
-    typeof retirement === "undefined" ||
-    retirement.length === 0 ||
-    retirement[1] !== 208.02
-  ) {
+  if (!employees[1].retirement || employees[1].retirement !== 208.02) {
     console.log("You have an error with your 401k function");
     return;
   }
