@@ -1,0 +1,2 @@
+ A function is to encapsulate information and allow you to reuse that same 
+ logic multiple times throughout your code

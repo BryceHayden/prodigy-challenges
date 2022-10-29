@@ -1,0 +1,12 @@
+Boolean
+String
+Number
+null
+undefined
+BigInt
+Symbol
+Object
+
+Array -  Second class citizen
+Function - First class citizen
+Class

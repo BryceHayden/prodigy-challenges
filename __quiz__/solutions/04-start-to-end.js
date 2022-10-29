@@ -3,10 +3,10 @@
 let maze = {
   singlePath: {
     one: [
+      ["X", "o", "X", "X"],
       ["X", "-", "X", "X"],
       ["X", "-", "X", "X"],
-      ["X", "-", "X", "X"],
-      ["X", "-", "X", "X"],
+      ["X", "s", "X", "X"],
       ["X", "-", "X", "X"],
       ["X", "-", "X", "X"],
       ["X", "-", "X", "X"],
@@ -21,13 +21,13 @@ let maze = {
       ["X", "-", "X", "X"],
       ["X", "-", "X", "X"],
       ["X", "-", "X", "X"],
-      ["X", "-", "X", "X"],
+      ["X", "o", "X", "X"],
     ],
     three: [
-      ["X", "X", "-", "X", "X"],
+      ["X", "X", "o", "X", "X"],
       ["X", "X", "-", "X", "X"],
       ["-", "-", "-", "X", "X"],
-      ["-", "X", "X", "X", "X"],
+      ["s", "X", "X", "X", "X"],
       ["-", "-", "X", "X", "X"],
       ["X", "-", "X", "X", "X"],
       ["X", "-", "X", "X", "X"],
@@ -35,7 +35,7 @@ let maze = {
       ["X", "-", "X", "X", "X"],
     ],
     four: [
-      ["-", "X", "X", "X", "X"],
+      ["o", "X", "X", "X", "X"],
       ["-", "X", "X", "X", "X"],
       ["-", "-", "-", "X", "X"],
       ["X", "X", "-", "X", "X"],
@@ -43,7 +43,7 @@ let maze = {
       ["X", "-", "X", "X", "X"],
       ["X", "-", "X", "X", "X"],
       ["X", "-", "X", "X", "X"],
-      ["X", "-", "X", "X", "X"],
+      ["X", "s", "X", "X", "X"],
     ],
   },
   divergingPaths: {
@@ -51,7 +51,18 @@ let maze = {
       ["X", "-", "X", "X"],
       ["X", "-", "-", "-"],
       ["-", "-", "X", "-"],
-      ["-", "X", "X", "X"],
+      ["s", "X", "X", "X"],
+      ["-", "-", "-", "-"],
+      ["X", "-", "X", "o"],
+      ["X", "-", "X", "X"],
+      ["X", "-", "X", "X"],
+      ["X", "-", "X", "X"],
+    ],
+    two: [
+      ["X", "-", "X", "X"],
+      ["X", "-", "-", "-"],
+      ["-", "-", "X", "o"],
+      ["s", "X", "X", "X"],
       ["-", "-", "-", "-"],
       ["X", "-", "X", "-"],
       ["X", "-", "X", "X"],
@@ -61,23 +72,26 @@ let maze = {
   },
 };
 
-//Recursive Function...aka it will call itself over and over
 function findPath(maze, path = []) {
   const current = path.length ? path[path.length - 1] : null;
-  if (current?.row === maze.length - 1) {
+  if (current && maze[current.row][current.col] === "o") {
     return path;
   }
 
   if (current === null) {
-    for (let i = 0; i < maze[0].length; i++) {
-      if (maze[0][i] === "-") {
-        return findPath(maze, [{ row: 0, col: i }]);
+    for (let row = 0; row < maze.length; row++) {
+      for (let col = 0; col < maze[row].length; col++) {
+        if (maze[row][col] === "s") {
+          return findPath(maze, [{ row, col }]);
+        }
       }
     }
+
+    return [];
   } else {
     let north = { row: current.row - 1, col: current.col, visited: false };
-    let east = { row: current.row, col: current.col + 1, visited: false };
     let south = { row: current.row + 1, col: current.col, visited: false };
+    let east = { row: current.row, col: current.col + 1, visited: false };
     let west = { row: current.row, col: current.col - 1, visited: false };
 
     path.forEach((spot) => {
@@ -99,7 +113,7 @@ function findPath(maze, path = []) {
         row < maze.length &&
         col >= 0 &&
         col < maze[row].length &&
-        maze[row][col] === "-"
+        (maze[row][col] === "-" || maze[row][col] === "o")
       ) {
         return findPath(maze, [...path, { row, col }]);
       }
@@ -119,28 +133,56 @@ function findPath(maze, path = []) {
     res = checkNextSpot(west);
     if (res) return res;
   }
-
-  return false;
 }
 
 const convertPathObj = (path) => {
-  return path.reduce((prev, cur) => {
-    let current = `(${cur.row}, ${cur.col})`;
-    return !prev ? current : `${prev} --> ${current}`;
-  }, "");
+  // [{row: 2, col: 4}, {}, {}]
+  return path.length
+    ? path.reduce((acc, cur, index) => {
+        if (!acc) {
+          return "Start";
+        }
+        if (index === path.length - 1) {
+          return `${acc} -> Exit`;
+        }
+
+        const previous = path[index - 1];
+        const diff = {
+          row: cur.row - previous.row,
+          col: cur.col - previous.col,
+        };
+
+        // previous 0, 0
+        // current  1, 0
+        let next = " --> West";
+
+        if (diff.row === 1 && diff.col === 0) {
+          next = " --> South";
+        } else if (diff.row === -1 && diff.col === 0) {
+          //previous 1, 0
+          //current  0, 0
+          next = " --> North";
+        } else if (diff.row === 0 && diff.col === 1) {
+          // previous 0, 0 .... current 0, 1
+          next = " --> East";
+        }
+
+        return `${acc} ${next}`;
+      }, "")
+    : "Can't Enter Maze";
 };
 
 const solveMaze = (maze) => {
   const pathObj = findPath(maze);
-  //[{row: 0, col: 1}, {row:  1, col: 1}, {row: 1, col: 2}]
+
   const pathString = convertPathObj(pathObj);
-  // Start -> North -> East
+  // Start -> North -> East -> End
   console.log(pathString);
 };
 
 //Alternate the commented out lines below to test against the harder logic
-solveMaze(maze.singlePath.one);
-solveMaze(maze.singlePath.two);
-solveMaze(maze.singlePath.three);
-solveMaze(maze.singlePath.four);
+//   solveMaze(maze.singlePath.one);
+// solveMaze(maze.singlePath.two);
+// solveMaze(maze.singlePath.three);
+// solveMaze(maze.singlePath.four);
 solveMaze(maze.divergingPaths.one);
