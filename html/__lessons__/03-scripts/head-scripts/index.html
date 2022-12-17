@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Our First Page</title>
+    <script>
+      document.getElementById("demo").innerHTML = "You won't see me";
+    </script>
+  </head>
+  <body>
+    <div id="demo">This is a block element</div>
+    <script>
+      setTimeout(() => {
+        document.getElementById("demo").innerHTML = "But you will see me!";
+      }, 2000);
+    </script>
+  </body>
+</html>

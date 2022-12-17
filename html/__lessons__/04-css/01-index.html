@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Head Script On Click</title>
+    <link href="styles.css" rel="stylesheet" />
+    <script>
+      const PLAY_X = 'X'
+      const PLAY_O = 'O'
+      let turn = PLAY_X
+
+      let board = [
+        ['-', '-', '-'],
+        ['-', '-', '-'],
+        ['-', '-', '-']
+      ]
+
+      const spotToBoard = new Map()
+
+      spotToBoard.set('1', {x: 0, y: 0})
+      spotToBoard.set('2', {x: 0, y: 1})
+      spotToBoard.set('3', {x: 0, y: 2})
+      spotToBoard.set('4', {x: 1, y: 0})
+      spotToBoard.set('5', {x: 1, y: 1})
+      spotToBoard.set('6', {x: 1, y: 2})
+      spotToBoard.set('7', {x: 2, y: 0})
+      spotToBoard.set('8', {x: 2, y: 1})
+      spotToBoard.set('9', {x: 2, y: 2})
+
+      const updateBoard = (spot) => {
+        spot.innerHTML = turn
+        const { x, y } = spotToBoard.get(spot.id)
+        board[x][y] = turn
+      }
+
+      // Func Check for winner
+      const checkForWinner = (id) => {
+        const { x, y } = spotToBoard.get(id)
+        // Check for the row that they clicked on
+        if (board[x][0] === board[x][1] && board[x][0] === board[x][2]) {
+          return 'true'
+        }
+        // Check for the column that they clicked on
+        else if (board[0][y] === board[1][y] && board[0][y] === board[2][y]) {
+          return 'true'
+        }
+        // check forward slash diagonal
+        else if () {
+
+        }
+
+        // check back slash diagonal
+        else if () {
+
+        }
+
+        //check if board is full
+        // 9
+        // board[0][1].length * board.length
+        // return 'cat'
+
+        return 'false'
+      }
+
+
+      // Func Switch player's turn
+      const switchPlayers = () => {}
+      // Func Reset game
+
+      // Func start game?
+
+      // On click game logic the onclick handler connecting HTML & JS
+      const onClickSpotGameLogic = (event) => {
+        const spot = event.target
+        const id = spot.id
+
+        updateBoard(spot)
+        const won = checkForWinner(id)
+
+        if (won === 'true') {
+          document.getElementById('game_info').innerHTML = `${turn} won the game!!`
+        } else if ( won === 'cat') {
+
+        } else {
+          switchPlayers()
+        }
+
+        // debugger;
+      }
+    </script>
+  </head>
+  <body>
+    <div id="board_row_one" class="row">
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="1">
+        -
+      </button>
+      |
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="2">
+        -
+      </button>
+      |
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="3">
+        -
+      </button>
+    </div>
+    <div id="board_row_two" class="row">
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="4">
+        -
+      </button>
+      |
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="5">
+        -
+      </button>
+      |
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="6">
+        -
+      </button>
+    </div>
+    <div id="board_row_three" class="row" style="background-color: black">
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="7">
+        -
+      </button>
+      |
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="8">
+        -
+      </button>
+      |
+      <button onclick="onClickSpotGameLogic(event)" class="spot" id="9">
+        -
+      </button>
+    </div>
+
+    <div id="game_controls">
+      <button>Start</button>
+      <button>Reset</button>
+    </div>
+
+    <div id="game_info"></div>
+  </body>
+</html>
